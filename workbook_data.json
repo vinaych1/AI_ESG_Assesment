@@ -1,0 +1,485 @@
+{
+  "metrics": {
+    "Accessibility": [
+      {
+        "question": "Supports keyboard-only navigation",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Verified during UI testing",
+        "na": "Yes",
+        "recommendation": "Test and remediate all core workflows so they can be completed using only a keyboard."
+      },
+      {
+        "question": "Provides alternative text for non-text content",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Some images have alt text",
+        "na": "No",
+        "recommendation": "Add meaningful alternative text to images, icons and other non-text content."
+      },
+      {
+        "question": "Maintains sufficient colour contrast and readable fonts",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Corporate UI standard followed",
+        "na": "Yes",
+        "recommendation": "Apply accessible contrast ratios and readable typography across the user interface."
+      },
+      {
+        "question": "Compatible with screen readers and assistive technologies",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Limited testing performed",
+        "na": "Yes",
+        "recommendation": "Test key journeys with screen readers and other assistive technologies and resolve identified issues."
+      },
+      {
+        "question": "Supports responsive design across devices",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Desktop and mobile supported",
+        "na": "No",
+        "recommendation": "Validate and optimize the interface for supported desktop, tablet and mobile devices."
+      },
+      {
+        "question": "Provides captions/transcripts for multimedia outputs",
+        "weight": 10.0,
+        "assessment": "Not Implemented",
+        "evidence": "Self Declared",
+        "remarks": "No multimedia features",
+        "na": "Yes",
+        "recommendation": "Provide captions for video and transcripts for audio wherever multimedia is used."
+      },
+      {
+        "question": "Error messages are clear and accessible",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "User-friendly error messages",
+        "na": "No",
+        "recommendation": "Rewrite error messages to clearly state the problem and the action the user should take."
+      },
+      {
+        "question": "Supports multiple languages where required",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "English only; expansion planned",
+        "na": "Yes",
+        "recommendation": "Identify required user languages and provide validated localization where there is a business or accessibility need."
+      },
+      {
+        "question": "Conforms to recognized accessibility standards (e.g., WCAG)",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Partial WCAG compliance",
+        "na": "No",
+        "recommendation": "Perform a formal accessibility review against the applicable WCAG level and remediate gaps."
+      },
+      {
+        "question": "Accessibility testing is performed before deployment",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Basic accessibility checklist",
+        "na": "Yes",
+        "recommendation": "Add accessibility testing to pre-release acceptance criteria and retain test evidence."
+      }
+    ],
+    "Bias Mitigation": [
+      {
+        "question": "Training data reviewed for representativeness",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "HR documents reviewed",
+        "na": "No",
+        "recommendation": "Document the populations and use cases represented in the data and assess material representation gaps."
+      },
+      {
+        "question": "Bias testing performed before deployment",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Limited prompt testing",
+        "na": "Yes",
+        "recommendation": "Introduce documented pre-deployment bias testing for relevant user groups and use cases."
+      },
+      {
+        "question": "Fairness metrics documented",
+        "weight": 10.0,
+        "assessment": "Not Implemented",
+        "evidence": "Self Declared",
+        "remarks": "No formal metrics",
+        "na": "No",
+        "recommendation": "Define, calculate and document fairness metrics appropriate to the AI system's context and risk."
+      },
+      {
+        "question": "Bias mitigation techniques implemented",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Prompt restrictions only",
+        "na": "No",
+        "recommendation": "Implement and document mitigation actions for material bias identified during testing."
+      },
+      {
+        "question": "Sensitive attributes handled appropriately",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "PII filtered",
+        "na": "Yes",
+        "recommendation": "Define controls for collection, use, access and protection of sensitive attributes."
+      },
+      {
+        "question": "Human review exists for high-risk decisions",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "HR approval required",
+        "na": "No",
+        "recommendation": "Require meaningful human review and escalation for decisions with material impact on people."
+      },
+      {
+        "question": "Bias monitoring performed after deployment",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Quarterly review",
+        "na": "No",
+        "recommendation": "Establish periodic post-deployment bias monitoring with defined thresholds and owners."
+      },
+      {
+        "question": "Bias incidents are documented and investigated",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Incident register maintained",
+        "na": "Yes",
+        "recommendation": "Create a bias incident process covering reporting, investigation, corrective action and closure."
+      },
+      {
+        "question": "Model retraining considers fairness improvements",
+        "weight": 10.0,
+        "assessment": "Not Implemented",
+        "evidence": "Self Declared",
+        "remarks": "No retraining yet",
+        "na": "No",
+        "recommendation": "Include fairness findings and metrics as explicit criteria in retraining and model-update decisions."
+      },
+      {
+        "question": "Governance process exists for bias management",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "AI committee oversight",
+        "na": "Yes",
+        "recommendation": "Assign accountability and establish a documented governance process for bias and fairness risks."
+      }
+    ],
+    "Transparency": [
+      {
+        "question": "Purpose of the AI system is documented",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "Project documentation",
+        "na": "Yes",
+        "recommendation": "Maintain an approved description of the system's intended purpose, users and permitted use cases."
+      },
+      {
+        "question": "Users are informed when interacting with AI",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Disclaimer shown",
+        "na": "No",
+        "recommendation": "Clearly disclose to users when they are interacting with or receiving content from an AI system."
+      },
+      {
+        "question": "Model limitations are documented",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Known limitations documented",
+        "na": "No",
+        "recommendation": "Document known limitations, failure modes and situations where the AI should not be relied upon."
+      },
+      {
+        "question": "Data sources are documented",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Knowledge sources listed",
+        "na": "No",
+        "recommendation": "Maintain traceable documentation of material data and knowledge sources used by the system."
+      },
+      {
+        "question": "Decision logic is explainable where applicable",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Basic explanations available",
+        "na": "Yes",
+        "recommendation": "Provide explanations appropriate to the impact and context of AI-supported decisions."
+      },
+      {
+        "question": "Confidence or uncertainty is communicated when appropriate",
+        "weight": 10.0,
+        "assessment": "Not Implemented",
+        "evidence": "Self Declared",
+        "remarks": "No confidence score",
+        "na": "Yes",
+        "recommendation": "Review and strengthen this control; document supporting evidence."
+      },
+      {
+        "question": "Version history of the model is maintained",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Git repository",
+        "na": "No",
+        "recommendation": "Maintain a traceable version history for models and material system components."
+      },
+      {
+        "question": "Model documentation is regularly updated",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Updated each release",
+        "na": "No",
+        "recommendation": "Define an owner and review cycle to keep model and system documentation current."
+      },
+      {
+        "question": "Responsible AI policies are publicly available or internally documented",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "Corporate policy",
+        "na": "No",
+        "recommendation": "Document responsible AI requirements and make them accessible to relevant stakeholders."
+      },
+      {
+        "question": "Transparency requirements are periodically reviewed",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Annual review",
+        "na": "No",
+        "recommendation": "Establish periodic reviews of disclosures, documentation and explainability requirements."
+      }
+    ],
+    "Auditability": [
+      {
+        "question": "Model versions are traceable",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Version controlled",
+        "na": "No",
+        "recommendation": "Implement version control and retain deployment records linking production use to specific model versions."
+      },
+      {
+        "question": "Training datasets are version controlled",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Repository maintained",
+        "na": "Yes",
+        "recommendation": "Version and retain material datasets so training or tuning runs can be reproduced and audited."
+      },
+      {
+        "question": "Configuration changes are recorded",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Change management",
+        "na": "No",
+        "recommendation": "Log material configuration changes with date, owner, rationale and approval."
+      },
+      {
+        "question": "Assessment results are archived",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Recent assessments only",
+        "na": "No",
+        "recommendation": "Retain ESG, risk and control assessment results according to a defined records-retention policy."
+      },
+      {
+        "question": "User actions can be audited",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "Audit logs retained",
+        "na": "No",
+        "recommendation": "Capture sufficient user activity records to support investigation and audit while respecting privacy requirements."
+      },
+      {
+        "question": "Inference requests are traceable",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Prompt logging enabled",
+        "na": "Yes",
+        "recommendation": "Retain appropriate request and response traceability with access, privacy and retention controls."
+      },
+      {
+        "question": "Model changes require approval",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "CAB approval",
+        "na": "No",
+        "recommendation": "Introduce documented approval gates for material model or AI-system changes."
+      },
+      {
+        "question": "Periodic internal audits are conducted",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Annual audit",
+        "na": "No",
+        "recommendation": "Establish a risk-based internal audit or independent review schedule for the AI system."
+      },
+      {
+        "question": "Evidence supporting compliance is retained",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Compliance repository",
+        "na": "No",
+        "recommendation": "Maintain a controlled evidence repository linked to relevant requirements and assessments."
+      },
+      {
+        "question": "Audit findings are tracked to closure",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Issue tracker",
+        "na": "No",
+        "recommendation": "Assign owners and due dates to audit findings and track corrective actions through verified closure."
+      }
+    ],
+    "Logging & Monitoring": [
+      {
+        "question": "System performance is continuously monitored",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "24\u00d77 monitoring",
+        "na": "No",
+        "recommendation": "Define operational performance indicators and continuously monitor them against thresholds."
+      },
+      {
+        "question": "Inference logs are retained securely",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Encrypted storage",
+        "na": "No",
+        "recommendation": "Define secure logging, access controls and retention periods for inference records."
+      },
+      {
+        "question": "Security events are monitored",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "SOC monitoring",
+        "na": "No",
+        "recommendation": "Integrate relevant AI-system security events into organizational security monitoring and response processes."
+      },
+      {
+        "question": "Model drift is monitored",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Self Declared",
+        "remarks": "Basic quality review",
+        "na": "Yes",
+        "recommendation": "Define drift indicators, thresholds and review actions appropriate to the model and use case."
+      },
+      {
+        "question": "Data quality is monitored",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Input validation",
+        "na": "Yes",
+        "recommendation": "Monitor material input and reference-data quality indicators and establish remediation triggers."
+      },
+      {
+        "question": "Alerts exist for abnormal behaviour",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Automated alerts",
+        "na": "No",
+        "recommendation": "Configure alerts for material anomalies, failures, misuse and unexpected system behaviour."
+      },
+      {
+        "question": "System availability is monitored",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "SLA dashboards",
+        "na": "No",
+        "recommendation": "Monitor availability and service health against agreed service objectives."
+      },
+      {
+        "question": "Incident response procedures are defined",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Independently Verified",
+        "remarks": "IR playbook",
+        "na": "No",
+        "recommendation": "Maintain an AI-specific incident response and escalation procedure integrated with enterprise incident management."
+      },
+      {
+        "question": "Monitoring dashboards are regularly reviewed",
+        "weight": 10.0,
+        "assessment": "Fully Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Weekly review",
+        "na": "Yes",
+        "recommendation": "Assign owners and a review cadence for monitoring dashboards and retain evidence of material reviews."
+      },
+      {
+        "question": "Monitoring results drive continuous improvement",
+        "weight": 10.0,
+        "assessment": "Partially Implemented",
+        "evidence": "Internally Verified",
+        "remarks": "Improvement backlog",
+        "na": "No",
+        "recommendation": "Translate monitoring findings into tracked corrective and preventive improvement actions."
+      }
+    ]
+  },
+  "carbon": {
+    "model_size": 7.0,
+    "gpu_type": "A100",
+    "gpu_count": 1.0,
+    "training_hours": 10.0,
+    "gpu_power": 400.0,
+    "pue": 1.4,
+    "grid_intensity": 0.5
+  },
+  "baseline": {
+    "B3": 97.2,
+    "B4": 62.49999999999999,
+    "B5": 86.3095238095238,
+    "B6": 82.0031746031746,
+    "E3": 64.0,
+    "E4": 48.45238095238095,
+    "E5": "Low",
+    "H4": "Bias Mitigation",
+    "H5": 49.999999999999986,
+    "H6": "Define, calculate and document fairness metrics appropriate to the AI system's context and risk."
+  }
+}
