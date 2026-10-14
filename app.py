@@ -41,7 +41,19 @@ def calculate():
  qual='High' if cov>=80 and conf>=80 else 'Low' if cov<50 or conf<50 else 'Medium'
  return results,dict(Environmental=environment,Social=social,Governance=governance,Overall=overall,energy=energy,emissions=emissions,coverage=cov,confidence=conf,quality=qual)
 
-def fmt(v):return '—' if v is None else f'{v:.1f}'
+def can_edit():
+ return st.session_state.status in ('In Progress', 'Returned')
+
+def update_control(metric, index, field, key):
+ # Enforce workflow state in the update handler, not only in the widget.
+ if can_edit():
+  st.session_state.records[metric][index][field] = st.session_state[key]
+
+def update_carbon(field, key):
+ if can_edit():
+  st.session_state.carbon[field] = st.session_state[key]
+
+def fmt(v):return '—' if v is None else f'{v:.1f}' 
 def select_metric(name):st.session_state.page=name;st.rerun()
 
 with st.sidebar:
@@ -60,7 +72,10 @@ with st.sidebar:
     if st.button(name,use_container_width=True,key='nav'+name):select_metric(name)
   if st.button('Review & Submit',use_container_width=True):st.session_state.page='Review';st.rerun()
  if st.button('Reset to workbook sample',use_container_width=True):
-  st.session_state.records=json.loads(json.dumps(METRICS));st.session_state.carbon=DATA['carbon'].copy();st.session_state.status='In Progress';st.session_state.page='Overview';st.rerun()
+  st.session_state.records=json.loads(json.dumps(METRICS));st.session_state.carbon=DATA['carbon'].copy();st.session_state.status='In Progress';st.session_state.page='Overview'
+  for key in list(st.session_state.keys()):
+   if key.startswith('carbon_widget_') or any(key.startswith(m+str(i)) and key.endswith(('a','e','n','r')) for m in METRICS for i in range(10)):del st.session_state[key]
+  st.rerun()
  st.divider();st.caption('Data is stored only in this browser session. Demo roles do not enforce security.')
 
 results,summary=calculate()
@@ -85,31 +100,35 @@ if role=='Risk Engineer / Assessor':
     if c.button('Open →',key='open'+name):select_metric(name)
  elif page=='Carbon Intensity':
   st.subheader('Carbon Intensity');st.caption('Exact environmental equations extracted from the uploaded workbook.')
+  if not can_edit():st.warning(f'Assessment is {st.session_state.status}. Editing is locked.')
   c=st.session_state.carbon
   left,right=st.columns(2)
-  with left:
-   c['model_size']=st.number_input('Model size (B parameters)',min_value=0.0,value=float(c['model_size']),step=1.0)
-   c['gpu_type']=st.text_input('GPU type',value=str(c['gpu_type']))
-   c['gpu_count']=st.number_input('GPU count',min_value=0,value=int(c['gpu_count']))
-   c['training_hours']=st.number_input('Training hours',min_value=0.0,value=float(c['training_hours']))
-  with right:
-   c['gpu_power']=st.number_input('GPU power (W)',min_value=0.0,value=float(c['gpu_power']))
-   c['pue']=st.number_input('PUE',min_value=1.0,value=float(c['pue']),step=.1)
-   c['grid_intensity']=st.number_input('Grid carbon intensity (kg CO₂e/kWh)',min_value=0.0,value=float(c['grid_intensity']),step=.1)
+  carbon_fields=[('model_size','Model size (B parameters)','number'),('gpu_type','GPU type','text'),('gpu_count','GPU count','integer'),('training_hours','Training hours','number'),('gpu_power','GPU power (W)','number'),('pue','PUE','number'),('grid_intensity','Grid carbon intensity (kg CO₂e/kWh)','number')]
+  for ix,(field,label,kind) in enumerate(carbon_fields):
+   with (left if ix<4 else right):
+    key='carbon_widget_'+field
+    if key not in st.session_state:st.session_state[key]=c[field]
+    if kind=='text':st.text_input(label,key=key,disabled=not can_edit(),on_change=update_carbon,args=(field,key))
+    elif kind=='integer':st.number_input(label,min_value=0,step=1,key=key,disabled=not can_edit(),on_change=update_carbon,args=(field,key))
+    else:st.number_input(label,min_value=1.0 if field=='pue' else 0.0,step=.1,key=key,disabled=not can_edit(),on_change=update_carbon,args=(field,key))
   _,s=calculate();a,b,d=st.columns(3);a.metric('Energy (kWh)',fmt(s['energy']));b.metric('Emissions (kg CO₂e)',fmt(s['emissions']));d.metric('Environmental score',fmt(s['Environmental']))
   st.caption('Workbook formula: energy = GPU count × hours × GPU power(kW) × PUE; emissions = energy × grid intensity; score = MAX(0, 100 − emissions). Model size and GPU type are descriptive inputs, not formula factors.')
  elif page in METRICS:
   st.subheader(page);r=results[page];a,b,c,d=st.columns(4);a.metric('Metric score',fmt(r['score']));b.metric('Coverage',fmt(r['coverage'])+'%');c.metric('Evidence confidence',fmt(r['confidence'])+'%');d.metric('Quality',r['quality'])
   st.caption(f"Maturity: {r['maturity']} · Applicable answered: {r['answered']}/{r['applicable']}")
   st.info('N/A = Yes excludes a control from the metric score. The coverage indicator mirrors the workbook: applicable controls ÷ all controls, not completion rate.')
+  if not can_edit():st.warning(f'Assessment is {st.session_state.status}. Responses and evidence are read-only. A Vertical Risk Head must return the assessment for correction to enable editing.')
   for i,item in enumerate(st.session_state.records[page]):
    with st.expander(f"{i+1:02d} · {item['question']}",expanded=i==0):
     st.caption('Weight: '+str(item['weight'])+'  ·  Recommendation: '+item['recommendation'])
     x,y,z=st.columns(3)
-    item['assessment']=x.selectbox('Assessment', ['']+ASSESS,index=(['']+ASSESS).index(item['assessment']) if item['assessment'] in ['']+ASSESS else 0,key=page+str(i)+'a')
-    item['evidence']=y.selectbox('Evidence status',['']+EVID,index=(['']+EVID).index(item['evidence']) if item['evidence'] in ['']+EVID else 0,key=page+str(i)+'e')
-    item['na']=z.selectbox('N/A',['No','Yes'],index=1 if item['na']=='Yes' else 0,key=page+str(i)+'n')
-    item['remarks']=st.text_area('Evidence reference / remarks',value=str(item['remarks']),key=page+str(i)+'r',height=75)
+    for field,suffix in [('assessment','a'),('evidence','e'),('na','n'),('remarks','r')]:
+     key=page+str(i)+suffix
+     if key not in st.session_state:st.session_state[key]=item[field] if field!='na' else ('Yes' if item['na']=='Yes' else 'No')
+    x.selectbox('Assessment',['']+ASSESS,key=page+str(i)+'a',disabled=not can_edit(),on_change=update_control,args=(page,i,'assessment',page+str(i)+'a'))
+    y.selectbox('Evidence status',['']+EVID,key=page+str(i)+'e',disabled=not can_edit(),on_change=update_control,args=(page,i,'evidence',page+str(i)+'e'))
+    z.selectbox('N/A',['No','Yes'],key=page+str(i)+'n',disabled=not can_edit(),on_change=update_control,args=(page,i,'na',page+str(i)+'n'))
+    st.text_area('Evidence reference / remarks',key=page+str(i)+'r',height=75,disabled=not can_edit(),on_change=update_control,args=(page,i,'remarks',page+str(i)+'r'))
   st.markdown('#### Top improvement priorities')
   current=score_metric(st.session_state.records[page])
   if not current['priorities']:st.success('No actionable Not Implemented or Partially Implemented controls among applicable questions.')
@@ -120,7 +139,9 @@ if role=='Risk Engineer / Assessor':
   st.dataframe([{'Metric':k,'Score':fmt(v['score']),'Coverage %':fmt(v['coverage']),'Evidence confidence %':fmt(v['confidence']),'Quality':v['quality']} for k,v in results.items()],hide_index=True,use_container_width=True)
   missing=sum(r['applicable']-r['answered'] for r in results.values());st.write('Unanswered applicable controls:',missing)
   if missing:st.warning('Complete all applicable control assessments before submitting.')
-  if st.button('Submit to Vertical Risk Head',disabled=missing>0):st.session_state.status='Submitted';st.success('Submitted in this demo session (not persisted to a server).')
+  if not can_edit():st.info(f'Assessment is {st.session_state.status}. Submission and editing are locked.')
+  if st.button('Submit to Vertical Risk Head',disabled=missing>0 or not can_edit()):
+   if can_edit():st.session_state.status='Submitted';st.rerun()
 
 elif role=='Vertical Risk Head':
  st.subheader('Vertical ESG review · Human Resources');st.caption('One system is available in this MVP; vertical aggregation requires additional assessments.')
@@ -132,6 +153,8 @@ elif role=='Vertical Risk Head':
   a,b=st.columns(2)
   if a.button('Approve assessment'):st.session_state.status='Approved';st.rerun()
   if b.button('Return for correction'):st.session_state.status='Returned';st.rerun()
+ elif st.session_state.status=='Approved':st.success('Assessment approved. Responses and scores are locked.')
+ elif st.session_state.status=='Returned':st.warning('Returned for correction. The Risk Engineer can edit and resubmit.')
  else:st.info('Approval controls activate when the Risk Engineer submits the assessment.')
 
 elif role=='Organization Head':
